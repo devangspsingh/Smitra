@@ -378,7 +378,6 @@ export function FeaturePageClient({ feature }: FeaturePageClientProps) {
             </AnimatedButton>
           </div>
         }
-        accordionPosition="right"
       />
 
       {/* ─────────────────────────────────────────────────────────────
