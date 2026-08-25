@@ -302,9 +302,9 @@ function GalleryCard({ item, scrollRef }) {
 
 export default function CylindricalGallery({
   items = DEFAULT_ITEMS,
-  autoSpeed = 0.05,
+  autoSpeed = 0.02,
   scrollSpeed = 0.18,
-  ease = 0.08,
+  ease = 0.06,
 }) {
   const innerRef = useRef(null);
   const containerRef = useRef(null);
