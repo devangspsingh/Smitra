@@ -214,6 +214,9 @@ export function FeaturePageClient({ feature }: FeaturePageClientProps) {
                 <img
                   src={feature.heroImage}
                   alt={feature.title}
+                  loading="eager"
+                  fetchPriority="high"
+                  decoding="async"
                   className={`w-auto h-auto object-contain drop-shadow-[0_25px_50px_rgba(245,158,11,0.35)] ${
                     !feature.isMobile
                       ? "max-h-[520px] sm:max-h-[580px] w-full scale-105 sm:scale-115"
@@ -233,15 +236,6 @@ export function FeaturePageClient({ feature }: FeaturePageClientProps) {
           ───────────────────────────────────────────────────────────── */}
       <section className="py-20 bg-muted/20 border-t border-border/40">
         <Container>
-          {/* <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="font-raleway text-3xl sm:text-4xl font-extrabold tracking-tight text-foreground mt-2">
-              Everything You Need for {feature.title}
-            </h2>
-            <p className="text-muted-foreground mt-3 text-base sm:text-lg">
-              Streamline construction site workflows with robust, digital-first tools designed for Indian sites.
-            </p>
-          </div> */}
-
           <div className="space-y-16 md:space-y-24">
             {feature.featureBlocks.map((block, i) => {
               const isEven = i % 2 === 0;
@@ -265,6 +259,8 @@ export function FeaturePageClient({ feature }: FeaturePageClientProps) {
                         <img
                           src={block.image}
                           alt={block.title}
+                          loading="lazy"
+                          decoding="async"
                           className={`relative z-20 h-auto object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.22)] ${
                             !block.isMobile
                               ? "max-h-[550px] md:max-h-[520px] w-[115%] sm:w-[125%] scale-105 sm:scale-110"
