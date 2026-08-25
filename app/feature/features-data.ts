@@ -709,11 +709,6 @@ export const FEATURES_DATA: Record<string, FeatureItem> = {
       variant: "default",
     },
     {
-      label: "Post a Job",
-      url: "https://app.shrammitra.com/accounts/login",
-      variant: "secondary-outline",
-    },
-    {
       label: "9796495051",
       url: "tel:9796495051",
       variant: "secondary",
@@ -867,11 +862,6 @@ export const FEATURES_DATA: Record<string, FeatureItem> = {
       label: "Find Machinery",
       url: "https://app.shrammitra.com/accounts/login",
       variant: "default",
-    },
-    {
-      label: "List Your Machinery",
-      url: "https://app.shrammitra.com/onboard/user",
-      variant: "secondary-outline",
     },
     {
       label: "9796495051",
