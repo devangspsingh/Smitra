@@ -9,7 +9,7 @@ import React, { useEffect, useRef, useState, useCallback } from "react";
    ───────────────────────────────────────────── */
 const DEFAULT_ITEMS = [
   {
-    title: "Find Jobs",
+    title: "Find & Manage\nJobs",
     subtitle: "Discover · Apply · Work",
     description:
       "Discover relevant construction and infrastructure job opportunities based on your skills, experience, and location.",
@@ -81,14 +81,27 @@ const DEFAULT_ITEMS = [
 
 /* ─────────────────────────────────────────────
    GALLERY CARD COMPONENT
-   Edit this to change how each card looks.
+   Full card is clickable while preserving drag/swipe
    ───────────────────────────────────────────── */
-function GalleryCard({ item }) {
+function GalleryCard({ item, scrollRef }) {
+  const handleClick = (e) => {
+    // If user was dragging/swiping, suppress the click navigation
+    if (scrollRef?.current?.isDragging) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  };
+
   return (
-    <div
+    <Link
+      href={item.link || "#"}
+      draggable={false}
+      onClick={handleClick}
+      aria-label={`Explore ${item.title.replace(/\n/g, " ")}`}
       className="
         group/card
         relative
+        block
         w-full
         h-full
         rounded-3xl
@@ -96,6 +109,7 @@ function GalleryCard({ item }) {
         select-none
         transition-all
         duration-500
+        cursor-pointer
       "
       style={{
         border: "2px solid rgba(16, 40, 75, 0.15)",
@@ -174,11 +188,9 @@ function GalleryCard({ item }) {
       />
 
       {/* ─────────────────────────────────────
-          VISIT / ARROW BUTTON
+          VISIT / ARROW BADGE (Visual Indicator)
       ───────────────────────────────────── */}
-      <Link
-        href={item.link || "#"}
-        aria-label={`Visit ${item.title.replace(/\n/g, " ")}`}
+      <div
         className="
           absolute
           top-5
@@ -216,20 +228,12 @@ function GalleryCard({ item }) {
           duration-400
           ease-out
 
-          pointer-events-auto
+          pointer-events-none
 
-          hover:bg-yellow-300
-          hover:scale-110
-          hover:shadow-xl
-
-          focus:outline-none
-          focus-visible:ring-2
-          focus-visible:ring-yellow-400
-          focus-visible:ring-offset-2
+          group-hover/card:bg-yellow-300
+          group-hover/card:scale-110
+          group-hover/card:shadow-xl
         "
-        onClick={(e) => {
-          e.stopPropagation();
-        }}
       >
         <svg
           width="17"
@@ -250,7 +254,7 @@ function GalleryCard({ item }) {
           <path d="M7 17L17 7" />
           <path d="M7 7h10v10" />
         </svg>
-      </Link>
+      </div>
 
       {/* ─────────────────────────────────────
           TITLE
@@ -292,13 +296,13 @@ function GalleryCard({ item }) {
           {item.title}
         </h3>
       </div>
-    </div>
+    </Link>
   );
 }
 
 export default function CylindricalGallery({
   items = DEFAULT_ITEMS,
-  autoSpeed = 0.1,
+  autoSpeed = 0.05,
   scrollSpeed = 0.18,
   ease = 0.08,
 }) {
@@ -408,7 +412,7 @@ export default function CylindricalGallery({
     scroll.startTarget = scroll.target;
   };
 
-  const handleMove = (clientX) => {
+  const handleMove = (clientX, clientY) => {
     const scroll = scrollRef.current;
     if (!scroll.isDown) return;
 
@@ -421,12 +425,13 @@ export default function CylindricalGallery({
     scroll.lastX = clientX;
     scroll.lastTime = now;
 
-    const diff = clientX - scroll.startX;
-    if (Math.abs(diff) > 6) {
+    const diffX = clientX - scroll.startX;
+    const diffY = clientY !== undefined ? clientY - scroll.startY : 0;
+    if (Math.abs(diffX) > 6 || Math.abs(diffY) > 6) {
       scroll.isDragging = true;
     }
 
-    scroll.target = scroll.startTarget + diff * scrollSpeed;
+    scroll.target = scroll.startTarget + diffX * scrollSpeed;
   };
 
   const handleEnd = () => {
@@ -435,9 +440,16 @@ export default function CylindricalGallery({
     scroll.isDown = false;
 
     // Add flick momentum if swiped fast
-    if (Math.abs(scroll.velocity) > 0.25) {
+    if (Math.abs(scroll.velocity) > 0.2) {
       const momentum = Math.max(Math.min(scroll.velocity * 35 * scrollSpeed, 40), -40);
       scroll.target += momentum;
+    }
+
+    // Keep isDragging = true for a brief moment to suppress the immediate click event
+    if (scroll.isDragging) {
+      setTimeout(() => {
+        scroll.isDragging = false;
+      }, 100);
     }
   };
 
@@ -448,7 +460,7 @@ export default function CylindricalGallery({
 
   const onPointerMove = useCallback(
     (e) => {
-      handleMove(e.clientX);
+      handleMove(e.clientX, e.clientY);
     },
     [scrollSpeed]
   );
@@ -466,7 +478,7 @@ export default function CylindricalGallery({
 
   const onTouchMove = (e) => {
     if (e.touches && e.touches.length > 0) {
-      handleMove(e.touches[0].clientX);
+      handleMove(e.touches[0].clientX, e.touches[0].clientY);
     }
   };
 
@@ -528,7 +540,7 @@ export default function CylindricalGallery({
                 backfaceVisibility: "hidden",
               }}
             >
-              <GalleryCard item={item} />
+              <GalleryCard item={item} scrollRef={scrollRef} />
             </div>
           );
         })}
