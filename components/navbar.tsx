@@ -2,7 +2,21 @@
 
 import { useEffect, useState } from "react"
 import { motion } from "motion/react"
-import { Menu, Phone } from "lucide-react"
+import {
+  Menu,
+  Phone,
+  HardHat,
+  Users,
+  Building2,
+  Clock,
+  FileText,
+  Trophy,
+  Truck,
+  Layers,
+  Receipt,
+  ArrowRight,
+  ChevronDown,
+} from "lucide-react"
 import Link from "next/link"
 
 import Container from "@/components/ui/Container"
@@ -51,6 +65,49 @@ const NAVBAR_CONFIG = {
     },
   },
 }
+
+const FEATURE_MENU_ITEMS = [
+  {
+    title: "Find Jobs",
+    href: "/feature/find-jobs",
+    icon: HardHat,
+  },
+  {
+    title: "Find Workers",
+    href: "/feature/find-workers",
+    icon: Users,
+  },
+  {
+    title: "Manage Attendance",
+    href: "/feature/manage-attendance",
+    icon: Clock,
+  },
+  {
+    title: "Manage Payroll",
+    href: "/feature/manage-payroll",
+    icon: FileText,
+  },
+  {
+    title: "Manage Ledger",
+    href: "/feature/ledger-management",
+    icon: Receipt,
+  },
+  {
+    title: "Find Tenders",
+    href: "/feature/find-tenders",
+    icon: Trophy,
+  },
+  {
+    title: "Find & Manage Machinery",
+    href: "/feature/find-machinery",
+    icon: Truck,
+  },
+  {
+    title: "Find & Manage Projects",
+    href: "/feature/project-management",
+    icon: Layers,
+  },
+]
 
 /* ----------------------------- */
 /* NAVBAR */

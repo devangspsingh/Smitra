@@ -8,6 +8,17 @@ import Link from "next/link"
 /* CONFIG */
 /* ---------------------- */
 
+const FEATURES = [
+  { label: "Find Jobs", href: "/feature/find-jobs" },
+  { label: "Find Workers", href: "/feature/find-workers" },
+  { label: "Manage Attendance", href: "/feature/manage-attendance" },
+  { label: "Manage Payroll", href: "/feature/manage-payroll" },
+  { label: "Manage Ledger", href: "/feature/ledger-management" },
+  { label: "Find Tenders", href: "/feature/find-tenders" },
+  { label: "Find & Manage Machinery", href: "/feature/find-machinery" },
+  { label: "Find & Manage Projects", href: "/feature/project-management" },
+]
+
 const RESOURCES = [
   { label: "Find Jobs", href: "https://play.google.com/store/apps/details?id=com.smitra"},
   { label: "Find Workers", href: "https://app.shrammitra.com/accounts/login" },
